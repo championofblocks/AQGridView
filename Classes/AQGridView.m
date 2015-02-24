@@ -1223,9 +1223,8 @@ NSString * const AQGridViewSelectionDidChangeNotification = @"AQGridViewSelectio
 	// UIScrollView implements _defaultHitTest:withEvent: for this, but we can't call that due to it
 	//  being a private API.
 	// Instead, we have to manufacture a call to our super-super class here, grr
-	Method method = class_getInstanceMethod( [UIView class], @selector(hitTest:withEvent:) );
-	IMP imp = method_getImplementation( method );
-	return ( (UIView *)imp(self, @selector(hitTest:withEvent:), point, event) ); // -[UIView hitTest:withEvent:]
+  
+  return [self performSelector:@selector(hitTest:withEvent:) withObject:[NSValue valueWithCGPoint:point] withObject:event];
 }
 
 - (BOOL) _canSelectItemContainingHitView: (UIView *) hitView
